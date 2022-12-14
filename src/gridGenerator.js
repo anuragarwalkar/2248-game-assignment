@@ -16,8 +16,7 @@ class RandomNumberGenerator {
       return this.initialNumbers[Math.floor(Math.random() * number)];
     }
   
-    _callback = (_, i) => {
-      return Array.from({ length: 4 }, () => {
+    _callback = () => {
         const value = this._getRandom(this.initialNumbers.length);
   
         return {
@@ -25,11 +24,10 @@ class RandomNumberGenerator {
           color: this.colorMapper[value],
           key: uuid.v4(),
         }
-      });
     }
   
     generate() {
-      return Array.from({ length: 6 }, this._callback);
+      return Array.from({ length: 6 * 4 }, this._callback);
     }
   }
 

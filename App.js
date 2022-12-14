@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Dimensions, StyleSheet, Text, View } from "react-native";
+import { FlatList, StyleSheet, Text, View } from "react-native";
 import gridGenerator from "./src/gridGenerator";
+import { getCurrentHeight } from "./src/utils";
 
-const width = Dimensions.get("window").width;
+
 
 export default function App() {
   const [grid] = useState(gridGenerator.generate());
@@ -10,20 +11,20 @@ export default function App() {
   return (
       <View style={styles.container}>
         <View style={styles.innerContainer}>
-          {grid.map((i) =>
-            i.map((j) => (
-              <View
-                key={j.key}
-                style={{ ...styles.box, backgroundColor: j.color }}
+          <FlatList data={grid} numColumns={4} renderItem={({item}) => {
+            return <View
+                key={item.key}
+                style={{ ...styles.box, backgroundColor: item.color }}
               >
-                <Text style={{ color: "white", fontSize: 50 }}>{j.value}</Text>
+                <Text style={{ color: "white", fontSize: 40 }}>{item.value}</Text>
               </View>
-            ))
-          )}
+          }} />
         </View>
       </View>
   );
 }
+
+const height = getCurrentHeight();
 
 const styles = StyleSheet.create({
   container: {
@@ -36,17 +37,15 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     display: "flex",
     flexDirection: "row",
-    alignItems: "center",
-    alignItems: "center",
-    justifyContent: "center",
+    padding: 5, 
   },
   box: {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    width: width / 5,
-    height: width / 5,
-    borderRadius: 30,
-    margin: width * 0.02,
+    borderRadius: 25,
+    flex: 1,
+    margin: 15,
+    height: height * 0.08
   },
 });
