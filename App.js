@@ -1,20 +1,33 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { useState } from "react";
+import { StyleSheet, Text, View } from "react-native";
+import gridGenerator from "./src/gridGenerator";
 
 export default function App() {
+  const [grid] = useState(gridGenerator.generate());
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+      {grid.map((i) => (
+        i.map(j => <View key={j.key} style={{ ...styles.box, backgroundColor: j.color }}>
+          <Text>{j.value}</Text>
+        </View>)
+      ))}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
+    flex: 4,
+    display: 'flex',
+    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  box: {
+    width: 50,
+    height: 50,
   },
 });
