@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import Grid from "./src/components/Grid";
+import Grid from "./src/components/Grid/Grid";
 
 export default function App() {
   return (
