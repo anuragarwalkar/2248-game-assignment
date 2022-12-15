@@ -1,4 +1,4 @@
-import { FlatList, Text, View } from "react-native";
+import { FlatList, View } from "react-native";
 import useGridGenerator from "../hooks/useGridGenerator";
 import { gridStyles } from "./styles";
 
@@ -11,16 +11,7 @@ function Grid() {
         data={grid}
         numColumns={4}
         scrollEnabled={false}
-        renderItem={({ item }) => {
-          return (
-            <View
-              key={item.key}
-              style={{ ...gridStyles.box, backgroundColor: item.color }}
-            >
-              <Text style={{ color: "white", fontSize: 40 }}>{item.value}</Text>
-            </View>
-          );
-        }}
+        renderItem={({ item }) => <GridItem {...item} />}
       />
     </View>
   );
