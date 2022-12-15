@@ -1,6 +1,7 @@
 import { FlatList, View } from "react-native";
 import useGridGenerator from "../hooks/useGridGenerator";
 import { gridStyles } from "./styles";
+import GridItem from './GridItem';
 
 function Grid() {
   const [grid] = useGridGenerator();
