@@ -21,7 +21,7 @@ class RandomNumbersGenerator {
     return {
       value: randomNumber,
       color: this.colorMapper[randomNumber],
-      key: uuid.v4(),
+      id: uuid.v4(),
     };
   };
 

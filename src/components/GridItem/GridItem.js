@@ -1,11 +1,12 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
+import { gridStyles } from "../Grid/styles";
 
-function GridItem({ key, value, color }) {
+function GridItem({ id, value, color }) {
 
   const boxStyle =  { ...gridStyles.box, backgroundColor: color };
 
   return (
-    <View key={key} style={boxStyle}>
+    <View key={id} style={boxStyle}>
       <Text style={styles.text}>{value}</Text>
     </View>
   );
