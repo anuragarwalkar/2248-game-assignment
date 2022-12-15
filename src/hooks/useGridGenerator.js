@@ -1,5 +1,5 @@
 import { useState } from "react";
-import gridGenerator from "../gridGenerator";
+import gridGenerator from "./gridGenerator";
 
 function useGridGenerator() {
   const generate = () => {

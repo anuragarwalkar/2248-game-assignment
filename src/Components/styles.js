@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { getCurrentHeight } from "../utils";
+import { getCurrentHeight } from "../utils/utils";
 
 const height = getCurrentHeight();
 
