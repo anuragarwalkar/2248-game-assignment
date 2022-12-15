@@ -10,6 +10,7 @@ function Grid() {
       <FlatList
         data={grid}
         numColumns={4}
+        scrollEnabled={false}
         renderItem={({ item }) => {
           return (
             <View
