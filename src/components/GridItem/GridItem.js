@@ -1,11 +1,16 @@
-import { View } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 function GridItem({ key, value, color }) {
+
+  const boxStyle =  { ...gridStyles.box, backgroundColor: color };
+
   return (
-    <View key={key} style={{ ...gridStyles.box, backgroundColor: color }}>
-      <Text style={{ color: "white", fontSize: 40 }}>{value}</Text>
+    <View key={key} style={boxStyle}>
+      <Text style={styles.text}>{value}</Text>
     </View>
   );
 }
+
+const styles = StyleSheet.create({text: { color: "white", fontSize: 40 }})
 
 export default GridItem;
