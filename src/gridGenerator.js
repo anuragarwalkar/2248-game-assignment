@@ -1,34 +1,37 @@
-import uuid from 'react-native-uuid';
+import uuid from "react-native-uuid";
 
-class RandomNumberGenerator {
-    initialNumbers = [2, 4, 8];
-    colorMapper = {
-      2: 'red',
-      4: 'blue',
-      8: 'green',
-    }
-  
-    constructor() {
-  
-    }
-  
-    _getRandom(number) {
-      return this.initialNumbers[Math.floor(Math.random() * number)];
-    }
-  
-    _callback = () => {
-        const value = this._getRandom(this.initialNumbers.length);
-  
-        return {
-          value ,
-          color: this.colorMapper[value],
-          key: uuid.v4(),
-        }
-    }
-  
-    generate() {
-      return Array.from({ length: 6 * 4 }, this._callback);
-    }
+class RandomNumbersGenerator {
+  numbersToFill = [];
+  length = 0;
+  colorMapper = {};
+
+  constructor(length, numbers, colorsMapper) {
+    this.length = length;
+    this.numbersToFill = numbers;
+    this.colorMapper = colorsMapper;
   }
 
-export default new RandomNumberGenerator();
+  _getRandomNumberToFill(number) {
+    return this.numbersToFill[Math.floor(Math.random() * number)];
+  }
+
+  _callback = () => {
+    const randomNumber = this._getRandomNumberToFill(this.numbersToFill.length);
+
+    return {
+      value: randomNumber,
+      color: this.colorMapper[randomNumber],
+      key: uuid.v4(),
+    };
+  };
+
+  generate() {
+    return Array.from({ length: this.length }, this._callback);
+  }
+}
+
+export default new RandomNumbersGenerator(6 * 4, [2, 4, 8], {
+  2: "red",
+  4: "blue",
+  8: "green",
+});

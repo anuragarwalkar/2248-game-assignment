@@ -4,7 +4,6 @@ import gridGenerator from "./src/gridGenerator";
 import { getCurrentHeight } from "./src/utils";
 
 
-
 export default function App() {
   const [grid] = useState(gridGenerator.generate());
 
