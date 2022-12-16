@@ -1,17 +1,8 @@
-import React, {Component} from 'react';
-import Svg, {Line} from 'react-native-svg';
-import {
-    StyleSheet,
-    View,
-    PanResponder,
-    Dimensions,
-} from 'react-native';
-import Grid from './src/components/Grid/Grid';
+import React, { useRef } from "react";
+import { Animated, View, StyleSheet, PanResponder, Text } from "react-native";
+import Grid from './Grid/Grid';
 
-var width = Dimensions.get('window').width;
-var height = Dimensions.get('window').height;
-
-const App = () => {
+const AppPanResponder = () => {
   const pan = useRef(new Animated.ValueXY()).current;
 
   const panResponder = useRef(
@@ -59,12 +50,15 @@ const App = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#FFE7C3",
-    height: "100%",
-    display: "flex",
-    justifyContent: "center",
-    position: 'relative'
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  titleText: {
+    fontSize: 14,
+    lineHeight: 24,
+    fontWeight: "bold"
   },
 });
 
-export default App;
+export default AppPanResponder;

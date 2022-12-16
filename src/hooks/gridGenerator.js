@@ -15,13 +15,14 @@ class RandomNumbersGenerator {
     return this.numbersToFill[Math.floor(Math.random() * number)];
   }
 
-  _callback = () => {
+  _callback = (_, i) => {
     const randomNumber = this._getRandomNumberToFill(this.numbersToFill.length);
 
     return {
       value: randomNumber,
       color: this.colorMapper[randomNumber],
       id: uuid.v4(),
+      index: i,
     };
   };
 
