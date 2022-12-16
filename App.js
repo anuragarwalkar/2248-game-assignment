@@ -1,58 +1,35 @@
-import React, {Component} from 'react';
-import Svg, {Line} from 'react-native-svg';
-import {
-    StyleSheet,
-    View,
-    PanResponder,
-    Dimensions,
-} from 'react-native';
-import Grid from './src/components/Grid/Grid';
+import Svg, { Line } from "react-native-svg";
+import { StyleSheet, View } from "react-native";
+import Grid from "./src/components/Grid/Grid";
+import React, { useState } from "react";
+import GestureRecorder from "./src/components/GestureRecorder";
+import { getDimenssions } from "./src/utils/utils";
 
-var width = Dimensions.get('window').width;
-var height = Dimensions.get('window').height;
+const { width, height } = getDimenssions();
 
-const App = () => {
-  const pan = useRef(new Animated.ValueXY()).current;
+function App() {
+  const [path, setPath] = useState({});
 
-  const panResponder = useRef(
-    PanResponder.create({
-      onMoveShouldSetPanResponder: () => true,
-      onPanResponderGrant: () => {
-        pan.setOffset({
-          x: pan.x._value,
-          y: pan.y._value
-        });
-      },
-      onPanResponderMove: Animated.event(
-        [
-          null,
-          { dx: pan.x, dy: pan.y }
-        ]
-      ),
-      onPanResponderRelease: () => {
-        pan.flattenOffset();
-      },
-      onMoveShouldSetPanResponder: (e, gestureState) => {
-        console.log(e);
-        return true
-      }
-
-    })
-  ).current;
-  
+  const onPathChanged = (updatedPath) => {
+    setPath(updatedPath);
+  };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.titleText}>Drag this box!</Text>
-      <Animated.View
-        style={{
-            transform: [{ translateX: pan.x }, { translateY: pan.y }]
-        }}
-        {...panResponder.panHandlers}
-      >
-
-        <Grid />
-      </Animated.View>
+      <GestureRecorder onPathChanged={onPathChanged} />
+      <Grid />
+      <View style={{width, height, position: 'absolute', zIndex: -100}} >
+        <Svg >
+          <Line
+            x1={path.startX}
+            y1={path.startY}
+            x2={path.endX}
+            y2={path.endY}
+            stroke="red"
+            strokeWidth="14"
+          />
+        </Svg>
+      </View>
     </View>
   );
 }
@@ -63,7 +40,7 @@ const styles = StyleSheet.create({
     height: "100%",
     display: "flex",
     justifyContent: "center",
-    position: 'relative'
+    position: "relative",
   },
 });
 

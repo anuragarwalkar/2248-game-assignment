@@ -1,25 +1,40 @@
-import { Children, useRef } from "react";
+import { useRef } from "react";
 import { PanResponder, StyleSheet, View } from "react-native";
 
-const GestureRecorder = ({ onPathChanged, children }) => {
-    const pathRef = useRef([]);
+const GestureRecorder = ({ onPathChanged }) => {
+    const pathRef = useRef({
+      startX: 50,
+      startY: 0,
+      endY: 0,
+      endX: 0,
+    });
   
     const panResponder = useRef(
       PanResponder.create({
         onMoveShouldSetPanResponder: () => true,
-        onPanResponderGrant: () => {
-          pathRef.current = [];
+        onPanResponderGrant: (event) => {
+          pathRef.current = {
+            startX: event.nativeEvent.locationX,
+            startY: event.nativeEvent.locationY,
+          };
         },
         onPanResponderMove: (event) => {
-          pathRef.current.push({
-            x: event.nativeEvent.locationX,
-            y: event.nativeEvent.locationY,
-          });
+          pathRef.current = {
+            ...pathRef.current,
+            endX: event.nativeEvent.locationX,
+            endY: event.nativeEvent.locationY,
+          };
           // Update path real-time (A new array must be created
           // so setState recognises the change and re-renders the App):
-          onPathChanged([...pathRef.current]);
+          onPathChanged(pathRef.current);
         },
         onPanResponderRelease: () => {
+          pathRef.current = {
+            startX: 0,
+            startY: 0,
+            endY: 0,
+            endX: 0,
+          };
           onPathChanged(pathRef.current);
         }
       })
@@ -27,11 +42,9 @@ const GestureRecorder = ({ onPathChanged, children }) => {
   
     return (
       <View
-        style={StyleSheet.absoluteFill}
+        style={{...StyleSheet.absoluteFill, zIndex: Number.MAX_SAFE_INTEGER}}
         {...panResponder.panHandlers}
-      >
-        {children}
-        </View>
+       />
     );
   }
 

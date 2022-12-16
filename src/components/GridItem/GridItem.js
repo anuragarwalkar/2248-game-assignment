@@ -5,7 +5,7 @@ function GridItem({ id, value, color: backgroundColor, index }) {
   const boxStyle = { ...gridStyles.box, backgroundColor, position: "relative" };
 
   return (
-    <TouchableWithoutFeedback onMagicTap={() => {
+    <TouchableWithoutFeedback onPress={() => {
       console.log(index);
     }}>
       <View key={id} style={boxStyle}>

@@ -24,7 +24,6 @@ const AppPanResponder = () => {
         pan.flattenOffset();
       },
       onMoveShouldSetPanResponder: (e, gestureState) => {
-        console.log(e);
         return true
       }
 
