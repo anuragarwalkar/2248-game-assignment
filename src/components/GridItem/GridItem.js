@@ -11,6 +11,7 @@ function GridItem({ id, value, color: backgroundColor, index }) {
       <View key={id} style={boxStyle}>
         <Text style={styles.text}>{value}</Text>
       </View>
+      
     </TouchableWithoutFeedback>
   );
 }
