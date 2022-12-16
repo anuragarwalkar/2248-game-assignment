@@ -11,7 +11,6 @@ function GestureResponderWithSvg() {
 
   const onPathChanged = (updatedPath) => {
     setPath(updatedPath);
-    console.log('updatedPath:', updatedPath)
   };
 
   return (
