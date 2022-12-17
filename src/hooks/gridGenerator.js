@@ -1,14 +1,24 @@
 import uuid from "react-native-uuid";
+import { getDimenssions } from "../utils/utils";
 
 class RandomNumbersGenerator {
   numbersToFill = [];
-  length = 0;
+  rows = 0;
+  columns = 0;
   colorMapper = {};
+  rowsCounter = 1;
+  columnsCounter = 1;
+  mappedDotsIndex = [];
 
-  constructor(length, numbers, colorsMapper) {
-    this.length = length;
+
+  constructor(rows, columns,numbers, colorsMapper) {
+    this.rows = rows;
+    this.columns = columns;
     this.numbersToFill = numbers;
     this.colorMapper = colorsMapper;
+    const { width, height } = getDimenssions()
+    this.width = width;
+    this.height = height;
   }
 
   _getRandomNumberToFill(number) {
@@ -17,22 +27,35 @@ class RandomNumbersGenerator {
 
   _callback = (_, i) => {
     const randomNumber = this._getRandomNumberToFill(this.numbersToFill.length);
+    this.mappedDotsIndex.push([this.columnsCounter - 1, this.rowsCounter - 1]);
 
-    return {
+    const result =  {
+      x: Math.floor((this.width / 6) * this.columnsCounter),
+      y:  Math.floor((this.height * 0.6) / this.rows * this.rowsCounter),
       value: randomNumber,
       color: this.colorMapper[randomNumber],
       id: uuid.v4(),
       index: i,
     };
+
+    if(this.columnsCounter === this.columns) {
+      this.rowsCounter++;
+    }
+
+    if(this.columnsCounter === this.columns) {
+      this.columnsCounter = 1;
+    }else {
+      this.columnsCounter++;
+    }
+
+    return result;
   };
 
   generate() {
-    return Array.from({ length: this.length }, this._callback);
+    const dots = Array.from({ length: this.rows * this.columns }, this._callback);
+
+    return [dots, this.mappedDotsIndex]
   }
 }
 
-export default new RandomNumbersGenerator(6 * 4, [2, 4, 8], {
-  2: "red",
-  4: "blue",
-  8: "green",
-});
+export default RandomNumbersGenerator;

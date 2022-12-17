@@ -1,11 +1,12 @@
-import { StyleSheet, View } from "react-native";
 import React from "react";
+import { StyleSheet, View } from "react-native";
 import GestureRecorder from "./src/components/GestureRecorder";
 
-function App() {
+function GestureResponder() {
+
   return (
     <View style={styles.container}>
-      <GestureRecorder />
+        <GestureRecorder/>
     </View>
   );
 }
@@ -19,4 +20,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default GestureResponder;

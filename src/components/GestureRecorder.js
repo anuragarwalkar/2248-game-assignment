@@ -1,51 +1,69 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { PanResponder, StyleSheet, View } from "react-native";
+import {  Line, Rect, Svg } from "react-native-svg";
+import RandomNumbersGenerator from "../hooks/gridGenerator";
+import getDotIndex, { getDimenssions } from "../utils/utils";
 
-const GestureRecorder = ({ onPathChanged }) => {
-    const pathRef = useRef({
-      startX: 50,
-      startY: 0,
-      endY: 0,
-      endX: 0,
-    });
-  
-    const panResponder = useRef(
-      PanResponder.create({
-        onMoveShouldSetPanResponder: () => true,
-        onPanResponderGrant: (event) => {
-          pathRef.current = {
-            startX: event.nativeEvent.locationX,
-            startY: event.nativeEvent.locationY,
-          };
-        },
-        onPanResponderMove: (event) => {
-          pathRef.current = {
-            ...pathRef.current,
-            endX: event.nativeEvent.locationX,
-            endY: event.nativeEvent.locationY,
-          };
-          // Update path real-time (A new array must be created
-          // so setState recognises the change and re-renders the App):
-          onPathChanged(pathRef.current);
-        },
-        onPanResponderRelease: () => {
-          pathRef.current = {
-            startX: 0,
-            startY: 0,
-            endY: 0,
-            endX: 0,
-          };
-          onPathChanged(pathRef.current);
+const { height, width } = getDimenssions();
+const [_dots, _mappedDotsIndex]  = new RandomNumbersGenerator(6, 4, [2, 4, 8], {
+  2: "red",
+  4: "blue",
+  8: "green",
+}).generate();;
+
+const GestureRecorder = () => {
+  const [pathRef, setPathRef] = useState({});
+  const node = useRef();
+
+  const panResponder = useRef(
+    PanResponder.create({
+      onMoveShouldSetPanResponder: () => {
+        console.log('asd');
+        return true
+      },
+      onPanResponderGrant: (event) => {
+        let { locationX, locationY } = event.nativeEvent;
+        let activeDotIndex = getDotIndex({ x: locationX, y: locationY }, _dots);
+        if (activeDotIndex != null) {
+          let activeDotCoordinate = _dots[activeDotIndex];
+          let firstDot = _mappedDotsIndex[activeDotIndex];
+          
+          setPathRef({
+            activeDotCoordinate,
+            initialGestureCoordinate: activeDotCoordinate,
+            pattern: [firstDot],
+          });
         }
-      })
-    ).current;
+      },
+      onPanResponderMove: (event) => {},
+      onPanResponderRelease: () => {},
+    })
+  ).current;
   
-    return (
-      <View
-        style={{...StyleSheet.absoluteFill, zIndex: Number.MAX_SAFE_INTEGER}}
-        {...panResponder.panHandlers}
-       />
-    );
-  }
 
-  export default GestureRecorder;
+  return (
+    <View {...panResponder.panHandlers} style={{...StyleSheet.absoluteFill, display: 'flex', justifyContent: 'center'}}>
+      <View>
+        <Svg width={width} height={height}>
+          {_dots.map((dot, i) => (
+            <Rect key={i} x={dot.x} y={dot.y} rx={20} width={60} height={60} fill={dot.color} />
+          ))}
+
+          {pathRef.activeDotCoordinate ? (
+            <Line
+              ref={node}
+              x1={pathRef.activeDotCoordinate.x}
+              y1={pathRef.activeDotCoordinate.y}
+              x2={pathRef.activeDotCoordinate.x}
+              y2={pathRef.activeDotCoordinate.y}
+              stroke="red"
+              strokeWidth="2"
+            />
+          ) : null}
+        </Svg>
+      </View>
+    </View>
+  );
+};
+
+export default GestureRecorder;
