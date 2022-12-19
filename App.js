@@ -4,20 +4,25 @@ import Grid from "./src/components/Grid/Grid";
 import React, { useState } from "react";
 import GestureRecorder from "./src/components/GestureRecorder";
 import { getDimenssions } from "./src/utils/utils";
+import { GridContext } from "./src/context";
 
 const { width, height } = getDimenssions();
 
 function App() {
   const [path, setPath] = useState({});
+  const gridDataMapper = useState([]);
 
   const onPathChanged = (updatedPath) => {
-    setPath(updatedPath);
+    // setPath(updatedPath);
   };
 
   return (
-    <View style={styles.container}>
-      <GestureRecorder onPathChanged={onPathChanged} />
-      <Grid />
+    <GridContext.Provider value={gridDataMapper} >
+      <View style={styles.container}>
+      <GestureRecorder onPathChanged={onPathChanged} > 
+       <Grid />
+      </GestureRecorder>
+      
       <View style={{width, height, position: 'absolute', zIndex: -100}} >
         <Svg >
           <Line
@@ -31,6 +36,8 @@ function App() {
         </Svg>
       </View>
     </View>
+    </GridContext.Provider>
+    
   );
 }
 

@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { PanResponder, StyleSheet, View } from "react-native";
 
-const GestureRecorder = ({ onPathChanged }) => {
+const GestureRecorder = ({ onPathChanged, children }) => {
     const pathRef = useRef({
       startX: 50,
       startY: 0,
@@ -19,6 +19,7 @@ const GestureRecorder = ({ onPathChanged }) => {
           };
         },
         onPanResponderMove: (event) => {
+          // console.log('event:', event);
           pathRef.current = {
             ...pathRef.current,
             endX: event.nativeEvent.locationX,
@@ -42,9 +43,10 @@ const GestureRecorder = ({ onPathChanged }) => {
   
     return (
       <View
-        style={{...StyleSheet.absoluteFill, zIndex: Number.MAX_SAFE_INTEGER}}
         {...panResponder.panHandlers}
-       />
+       >
+        {children}
+        </View>
     );
   }
 

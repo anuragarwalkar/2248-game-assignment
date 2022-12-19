@@ -1,17 +1,24 @@
-import { StyleSheet, View, Text, TouchableWithoutFeedback } from "react-native";
+import { useContext } from "react";
+import { StyleSheet, View, Text } from "react-native";
+import { GridContext } from "../../context";
 import { gridStyles } from "../Grid/styles";
 
 function GridItem({ id, value, color: backgroundColor, index }) {
+  const [_, setGridData] = useContext(GridContext);
   const boxStyle = { ...gridStyles.box, backgroundColor, position: "relative" };
 
   return (
-    <TouchableWithoutFeedback onPress={() => {
-      console.log(index);
-    }}>
-      <View key={id} style={boxStyle}>
-        <Text style={styles.text}>{value}</Text>
-      </View>
-    </TouchableWithoutFeedback>
+    <View
+      key={id}
+      style={boxStyle}
+      onLayout={({ nativeEvent: { layout } }) => {
+        setGridData((g) =>
+          g.concat({ ...layout, id, value, color: backgroundColor, index })
+        );
+      }}
+    >
+      <Text style={styles.text}>{value}</Text>
+    </View>
   );
 }
 
