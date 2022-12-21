@@ -20,7 +20,6 @@ const GestureRecorder = () => {
   const _isAlreadyInPattern = ({ x, y }) => {
     return (
       pattern.current.find((dot) => {
-        console.log("dot:", dot, x, y);
         return dot.x === x && dot.y === y;
       }) != null
     );
