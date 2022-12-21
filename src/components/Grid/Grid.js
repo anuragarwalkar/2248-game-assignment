@@ -3,11 +3,11 @@ import useGridGenerator from "../../hooks/useGridGenerator";
 import { gridStyles } from "./styles";
 import GridItem from '../GridItem/GridItem';
 
-function Grid() {
-  const [grid] = useGridGenerator();
+function Grid(props) {
+  const {grid} = useGridGenerator();
 
   return (
-    <View style={gridStyles.innerContainer}>
+    <View style={gridStyles.innerContainer} {...props}>
       <FlatList
         data={grid}
         numColumns={4}

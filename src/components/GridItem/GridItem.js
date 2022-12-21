@@ -1,21 +1,43 @@
-import { useContext } from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { useContext, useEffect, useRef } from "react";
+import { StyleSheet, View, Text, UIManager, findNodeHandle } from "react-native";
 import { GridContext } from "../../context";
 import { gridStyles } from "../Grid/styles";
+findNodeHandle
 
 function GridItem({ id, value, color: backgroundColor, index }) {
-  const [_, setGridData] = useContext(GridContext);
+  const { setDots } = useContext(GridContext);
   const boxStyle = { ...gridStyles.box, backgroundColor, position: "relative" };
+  const ref = useRef();
+
+  useEffect(() => {
+
+    setTimeout(() => {
+      ref.current.measure((x, y, width, height, px, py) => {
+        console.log(index, x, y);
+      })
+    }, 2000);
+    
+
+    // setDots((g) => {
+    //   // let { height, width, x, y } = layout;
+    //   return g.concat({
+    //     // height,
+    //     // width,
+    //     // x,
+    //     // y,
+    //     // id,
+    //     // value,
+    //     // color: backgroundColor,
+    //     // index,
+    //   });
+    // });
+  }, []);
 
   return (
     <View
+      ref={ref}
       key={id}
       style={boxStyle}
-      onLayout={({ nativeEvent: { layout } }) => {
-        setGridData((g) =>
-          g.concat({ ...layout, id, value, color: backgroundColor, index })
-        );
-      }}
     >
       <Text style={styles.text}>{value}</Text>
     </View>
