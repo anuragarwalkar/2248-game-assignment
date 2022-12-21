@@ -13,16 +13,18 @@ const [_dots, _mappedDotsIndex] = new RandomNumbersGenerator(6, 4, [2, 4, 8], {
 
 const GestureRecorder = () => {
   const pathRef = useRef({});
-  const [pattern, setPattern] = useState([]);
+  const pattern = useRef([]);
   const [activeDotCoordinate, setActiveDotCoordinate] = useState({});
   const lineRef = useRef();
 
-  const _isAlreadyInPattern = ({x, y}) => {
-    console.log('pattern:', pattern);
-    return pattern.find(dot => {
-      return dot.x === x && dot.y === y;
-    }) != null;
-  }
+  const _isAlreadyInPattern = ({ x, y }) => {
+    return (
+      pattern.current.find((dot) => {
+        console.log("dot:", dot, x, y);
+        return dot.x === x && dot.y === y;
+      }) != null
+    );
+  };
 
   const panResponder = useRef(
     PanResponder.create({
@@ -39,22 +41,27 @@ const GestureRecorder = () => {
         );
 
         if (activeDotIndex != null) {
-          let activeDotCoordinate = _dots[activeDotIndex];
+          let activeDotCoordinate = { ..._dots[activeDotIndex] };
           let firstDot = _mappedDotsIndex[activeDotIndex];
+
+          activeDotCoordinate.x += 30;
+          activeDotCoordinate.y += 30;
 
           pathRef.current = {
             activeDotCoordinate,
             initialGestureCoordinate: activeDotCoordinate,
-            pattern: [firstDot],
           };
+
+          pattern.current = [firstDot];
 
           setActiveDotCoordinate({
             ...activeDotCoordinate,
           });
         }
       },
-      onPanResponderMove: (e, gestureState) => {
-        let { dx, dy } = gestureState;
+      onPanResponderMove: (event, gestureState) => {
+        let { locationX, locationY } = event.nativeEvent;
+        // let { dx, dy } = gestureState;
 
         let { initialGestureCoordinate, activeDotCoordinate } = pathRef.current;
 
@@ -62,11 +69,11 @@ const GestureRecorder = () => {
           return;
         }
 
-        let endGestureX = initialGestureCoordinate.x + dx;
-        let endGestureY = initialGestureCoordinate.y + dy;
+        // let endGestureX = initialGestureCoordinate.x + dx;
+        // let endGestureY = initialGestureCoordinate.y + dy;
 
         let matchedDotIndex = getDotIndex(
-          { x: endGestureX, y: endGestureY },
+          { x: locationX, y: locationY },
           _dots
         );
 
@@ -76,16 +83,17 @@ const GestureRecorder = () => {
         if (
           matchedDotIndex != null &&
           matchedDot &&
-          !_isAlreadyInPattern(matchedDot)
+          !_isAlreadyInPattern(matchedDot) &&
+          activeDotCoordinate.color === _dots[matchedDotIndex].color
         ) {
           const newMatch = { x: matchedDot.x, y: matchedDot.y };
-          setPattern((p) => p.concat(newMatch));
+          pattern.current = pattern.current.concat(newMatch);
           setActiveDotCoordinate(_dots[matchedDotIndex]);
         } else {
           setActiveDotCoordinate({
             ...activeDotCoordinate,
-            x2: endGestureX,
-            y2: endGestureY,
+            x2: locationX,
+            y2: locationY,
           });
         }
       },
@@ -97,10 +105,10 @@ const GestureRecorder = () => {
     <View
       {...panResponder.panHandlers}
       style={{
-        ...StyleSheet.absoluteFill,
         display: "flex",
         flex: 1,
         justifyContent: "center",
+        ...StyleSheet.absoluteFill,
       }}
     >
       <View>
@@ -116,49 +124,55 @@ const GestureRecorder = () => {
               fill={dot.color}
             />
           ))}
-
-          {pattern.map((startCoordinate, index) => {
-            if (index === pattern.length - 1) {
-              return;
-            }
-            let startIndex = _mappedDotsIndex.findIndex((dot) => {
-              return dot.x === startCoordinate.x && dot.y === startCoordinate.y;
-            });
-            let endCoordinate = pattern[index + 1];
-            let endIndex = _mappedDotsIndex.findIndex((dot) => {
-              return dot.x === endCoordinate.x && dot.y === endCoordinate.y;
-            });
-            if (startIndex < 0 || endIndex < 0) {
-              return;
-            }
-            const actualStartDot = _dots[startIndex];
-            const actualEndDot = _dots[endIndex];
-
-            return (
-              <Line
-                key={`fixedLine${index}`}
-                x1={actualStartDot.x}
-                y1={actualStartDot.y}
-                x2={actualEndDot.x}
-                y2={actualEndDot.y}
-                stroke="red"
-                strokeWidth="2"
-              />
-            );
-          })}
-
-          {activeDotCoordinate ? (
-            <Line
-              ref={lineRef}
-              x1={activeDotCoordinate.x}
-              y1={activeDotCoordinate.y}
-              x2={activeDotCoordinate.x2}
-              y2={activeDotCoordinate.y2}
-              stroke={activeDotCoordinate.color}
-              strokeWidth="25"
-            />
-          ) : null}
         </Svg>
+        <View style={{ position: "absolute", zIndex: -2000 }}>
+          <Svg width={width} height={height * 0.7}>
+            {pattern.current.map((startCoordinate, index) => {
+              if (index === pattern.current.length - 1) {
+                return;
+              }
+              let startIndex = _mappedDotsIndex.findIndex((dot) => {
+                return (
+                  dot.x === startCoordinate.x && dot.y === startCoordinate.y
+                );
+              });
+
+              let endCoordinate = pattern.current[index + 1];
+              let endIndex = _mappedDotsIndex.findIndex((dot) => {
+                return dot.x === endCoordinate.x && dot.y === endCoordinate.y;
+              });
+              if (startIndex < 0 || endIndex < 0) {
+                return;
+              }
+              const actualStartDot = _dots[startIndex];
+              const actualEndDot = _dots[endIndex];
+
+              return (
+                <Line
+                  key={`fixedLine${index}`}
+                  x1={actualStartDot.x + 30}
+                  y1={actualStartDot.y + 30}
+                  x2={actualEndDot.x + 30}
+                  y2={actualEndDot.y + 30}
+                  stroke={actualStartDot.color}
+                  strokeWidth="25"
+                />
+              );
+            })}
+
+            {activeDotCoordinate ? (
+              <Line
+                ref={lineRef}
+                x1={activeDotCoordinate.x}
+                y1={activeDotCoordinate.y}
+                x2={activeDotCoordinate.x2}
+                y2={activeDotCoordinate.y2}
+                stroke={activeDotCoordinate.color}
+                strokeWidth="25"
+              />
+            ) : null}
+          </Svg>
+        </View>
       </View>
     </View>
   );

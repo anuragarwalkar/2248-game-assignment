@@ -27,7 +27,7 @@ class RandomNumbersGenerator {
 
   _callback = (_, i) => {
     const randomNumber = this._getRandomNumberToFill(this.numbersToFill.length);
-    this.mappedDotsIndex.push([this.columnsCounter - 1, this.rowsCounter - 1]);
+    this.mappedDotsIndex.push({x: this.columnsCounter - 1, y: this.rowsCounter - 1});
 
     const result =  {
       x: Math.floor((this.width / 6) * this.columnsCounter),
