@@ -88,6 +88,7 @@ const GestureRecorder = () => {
       },
       onPanResponderRelease: () => {
         pathRef.current = {};
+        setActiveDotCoordinate({});
       },
     })
   ).current;
