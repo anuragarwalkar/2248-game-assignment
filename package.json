@@ -2,6 +2,13 @@
   "name": "2248-game-assignment",
   "version": "1.0.0",
   "main": "node_modules/expo/AppEntry.js",
+  "expo": {
+      "name": "2248 Game",
+      "slug": "2248-game-assignment",
+      "description": "Assignment for 2248 game",
+      "version": "1.0.0",
+      "orientation": "portrait"
+  },
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
