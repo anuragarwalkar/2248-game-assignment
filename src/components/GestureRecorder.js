@@ -5,11 +5,12 @@ import RandomNumbersGenerator from "../hooks/gridGenerator";
 import getDotIndex, { getDimenssions } from "../utils/utils";
 
 const { height, width } = getDimenssions();
-const {dots: _dots, mappedDotsIndex: _mappedDotsIndex} = new RandomNumbersGenerator(6, 4, [2, 4, 8], {
-  2: "red",
-  4: "blue",
-  8: "green",
-}).generate();
+const { dots: _dots, mappedDotsIndex: _mappedDotsIndex } =
+  new RandomNumbersGenerator(6, 4, [2, 4, 8], {
+    2: "red",
+    4: "blue",
+    8: "green",
+  }).generate();
 
 const GestureRecorder = () => {
   const pathRef = useRef({});
@@ -49,24 +50,16 @@ const GestureRecorder = () => {
           };
 
           pattern.current = [firstDot];
-
-          setActiveDotCoordinate({
-            ...activeDotCoordinate,
-          });
         }
       },
-      onPanResponderMove: (event, gestureState) => {
+      onPanResponderMove: (event) => {
         let { locationX, locationY } = event.nativeEvent;
-        // let { dx, dy } = gestureState;
 
-        let { initialGestureCoordinate, activeDotCoordinate } = pathRef.current;
+        const { initialGestureCoordinate, activeDotCoordinate } = pathRef.current;
 
         if (activeDotCoordinate == null || initialGestureCoordinate == null) {
           return;
         }
-
-        // let endGestureX = initialGestureCoordinate.x + dx;
-        // let endGestureY = initialGestureCoordinate.y + dy;
 
         let matchedDotIndex = getDotIndex(
           { x: locationX, y: locationY },
@@ -84,14 +77,14 @@ const GestureRecorder = () => {
         ) {
           const newMatch = { x: matchedDot.x, y: matchedDot.y };
           pattern.current = pattern.current.concat(newMatch);
-          setActiveDotCoordinate(_dots[matchedDotIndex]);
-        } else {
+          pathRef.current.activeDotCoordinate = _dots[matchedDotIndex];
+        } 
           setActiveDotCoordinate({
-            ...activeDotCoordinate,
+            ...pathRef.current.activeDotCoordinate,
             x2: locationX,
             y2: locationY,
           });
-        }
+
       },
       onPanResponderRelease: () => {},
     })
@@ -131,7 +124,7 @@ const GestureRecorder = () => {
             </Svg>
           ))}
         </Svg>
-        <View style={{ position: "absolute", zIndex: -2000 }}>
+        <View style={{ position: "absolute", zIndex: Number.MIN_SAFE_INTEGER }}>
           <Svg width={width} height={height * 0.8}>
             {pattern.current.map((startCoordinate, index) => {
               if (index === pattern.current.length - 1) {
