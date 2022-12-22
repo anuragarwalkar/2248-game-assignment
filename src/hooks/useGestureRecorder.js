@@ -1,15 +1,9 @@
 import { useRef, useState } from "react";
-import { PanResponder, StyleSheet, View } from "react-native";
-import { G, Svg } from "react-native-svg";
-import useGridGenerator from "../hooks/useGridGenerator";
-import getDotIndex, { getDimenssions } from "../utils/utils";
-import ActiveLine from "./ActiveLine";
-import GridItem from "./GridItem/GridItem";
-import Pattern from "./Pattern/Pattern";
+import { PanResponder } from "react-native";
+import useGridGenerator from "./useGridGenerator";
+import getDotIndex from "../utils/utils";
 
-const { height, width } = getDimenssions();
-
-const GestureRecorder = () => {
+const useGestureRecorder = () => {
   const pathRef = useRef({});
   const pattern = useRef([]);
   const [activeDotCoordinate, setActiveDotCoordinate] = useState({});
@@ -45,8 +39,6 @@ const GestureRecorder = () => {
             activeDotCoordinate,
             initialGestureCoordinate: activeDotCoordinate,
           };
-
-          console.log(pathRef.current)
 
           pattern.current = [firstDot];
         }
@@ -89,28 +81,7 @@ const GestureRecorder = () => {
     })
   ).current;
 
-  return (
-    <View {...panResponder.panHandlers} style={{
-      display: "flex",
-      flex: 1,
-      justifyContent: "center",
-      ...StyleSheet.absoluteFill,
-    }}>
-      <View>
-        <Svg width={width} height={height * 0.8}>
-          {grid.current && grid.current.map((dot, i) => (
-            <GridItem key={i} item={dot} />
-          ))}
-        </Svg>
-        <View style={{ position: "absolute", zIndex: Number.MIN_SAFE_INTEGER }}>
-          <Svg width={width} height={height * 0.8}>
-            <Pattern items={pattern.current} grid={grid.current} mappedGridIndex={mappedGridIndex.current} />
-            <ActiveLine activeDotCoordinate={activeDotCoordinate} />
-          </Svg>
-        </View>
-      </View>
-    </View>
-  );
+  return {activeDotCoordinate, grid, mappedGridIndex, panResponder, pattern};
 };
 
-export default GestureRecorder;
+export default useGestureRecorder;

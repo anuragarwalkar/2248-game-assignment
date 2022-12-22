@@ -1,11 +1,12 @@
 import { StyleSheet, View } from "react-native";
 import React from "react";
-import GestureRecorder from "./src/components/GestureRecorder";
+import GestureRecorder from "./src/hooks/useGestureRecorder";
+import Grid from "./src/components/Grid/Grid";
 
 function App() {
   return (
     <View style={styles.container}>
-      <GestureRecorder />
+      <Grid />
     </View>
   );
 }
