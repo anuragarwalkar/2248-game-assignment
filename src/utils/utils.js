@@ -6,7 +6,7 @@ export const getCurrentHeight = () => Dimensions.get("window").height;
 
 export const getDimenssions = () => Dimensions.get("window");
 
-const DEFAULT_HIT_SLOP = 55;
+const DEFAULT_HIT_SLOP = 20;
 
 export default function getDotIndex(
   gestureCoordinate,
@@ -15,7 +15,7 @@ export default function getDotIndex(
 ) {
   let {x, y} = gestureCoordinate;
   for (let i = 0; i < dots.length; i++) {
-    let {x: dotX, y: dotY} = dots[i];
+    let {x1: dotX, y1: dotY} = dots[i];
     if (
       dotX + hitSlop >= x &&
       dotX - hitSlop <= x &&

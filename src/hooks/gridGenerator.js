@@ -29,9 +29,14 @@ class RandomNumbersGenerator {
     const randomNumber = this._getRandomNumberToFill(this.numbersToFill.length);
     this.mappedDotsIndex.push({x: this.columnsCounter - 1, y: this.rowsCounter - 1});
 
+    const x = Math.floor((this.width / 4) * this.columnsCounter) - this.width * 0.21;
+    const y =  Math.floor((this.height * 0.7) / this.rows * this.rowsCounter);
+
     const result =  {
-      x: Math.floor((this.width / 6) * this.columnsCounter),
-      y:  Math.floor((this.height * 0.6) / this.rows * this.rowsCounter),
+      x,
+      y,
+      x1: x + 35,
+      y1: y + 35,
       value: randomNumber,
       color: this.colorMapper[randomNumber],
       id: uuid.v4(),
@@ -54,7 +59,7 @@ class RandomNumbersGenerator {
   generate() {
     const dots = Array.from({ length: this.rows * this.columns }, this._callback);
 
-    return [dots, this.mappedDotsIndex]
+    return {dots, mappedDotsIndex: this.mappedDotsIndex}
   }
 }
 
