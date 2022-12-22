@@ -5,6 +5,7 @@ import RandomNumbersGenerator from "../hooks/gridGenerator";
 import getDotIndex, { getDimenssions } from "../utils/utils";
 
 const { height, width } = getDimenssions();
+
 const { dots: _dots, mappedDotsIndex: _mappedDotsIndex } =
   new RandomNumbersGenerator(6, 4, [2, 4, 8], {
     2: "red",
@@ -55,7 +56,8 @@ const GestureRecorder = () => {
       onPanResponderMove: (event) => {
         let { locationX, locationY } = event.nativeEvent;
 
-        const { initialGestureCoordinate, activeDotCoordinate } = pathRef.current;
+        const { initialGestureCoordinate, activeDotCoordinate } =
+          pathRef.current;
 
         if (activeDotCoordinate == null || initialGestureCoordinate == null) {
           return;
@@ -78,13 +80,12 @@ const GestureRecorder = () => {
           const newMatch = { x: matchedDot.x, y: matchedDot.y };
           pattern.current = pattern.current.concat(newMatch);
           pathRef.current.activeDotCoordinate = _dots[matchedDotIndex];
-        } 
-          setActiveDotCoordinate({
-            ...pathRef.current.activeDotCoordinate,
-            x2: locationX,
-            y2: locationY,
-          });
-
+        }
+        setActiveDotCoordinate({
+          ...pathRef.current.activeDotCoordinate,
+          x2: locationX,
+          y2: locationY,
+        });
       },
       onPanResponderRelease: () => {
         pathRef.current = {};
