@@ -1,10 +1,10 @@
 import { Dimensions } from "react-native";
 
-export const getCurrentWidth = () => Dimensions.get("window").width;
-
-export const getCurrentHeight = () => Dimensions.get("window").height;
-
 export const getDimenssions = () => Dimensions.get("window");
+
+export const getCurrentWidth = () => getDimenssions().width;
+
+export const getCurrentHeight = () => getDimenssions().height;
 
 const DEFAULT_HIT_SLOP = 20;
 
