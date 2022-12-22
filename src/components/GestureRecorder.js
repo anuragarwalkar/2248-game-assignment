@@ -86,7 +86,9 @@ const GestureRecorder = () => {
           });
 
       },
-      onPanResponderRelease: () => {},
+      onPanResponderRelease: () => {
+        pathRef.current = {};
+      },
     })
   ).current;
 
@@ -148,7 +150,7 @@ const GestureRecorder = () => {
 
               return (
                 <Line
-                  key={`fixedLine${index}`}
+                  key={`fixedLine-${index}`}
                   x1={actualStartDot.x + 35}
                   y1={actualStartDot.y + 35}
                   x2={actualEndDot.x + 35}
