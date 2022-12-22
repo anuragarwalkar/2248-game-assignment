@@ -8,10 +8,10 @@ class RandomNumbersGenerator {
   colorMapper = {};
   rowsCounter = 1;
   columnsCounter = 1;
-  mappedDotsIndex = [];
+  mappedGridIndex = [];
 
 
-  constructor(rows, columns,numbers, colorsMapper) {
+  constructor(rows, columns, numbers, colorsMapper) {
     this.rows = rows;
     this.columns = columns;
     this.numbersToFill = numbers;
@@ -27,7 +27,7 @@ class RandomNumbersGenerator {
 
   _callback = (_, i) => {
     const randomNumber = this._getRandomNumberToFill(this.numbersToFill.length);
-    this.mappedDotsIndex.push({x: this.columnsCounter - 1, y: this.rowsCounter - 1});
+    this.mappedGridIndex.push({x: this.columnsCounter - 1, y: this.rowsCounter - 1});
 
     const x = Math.floor((this.width / 4) * this.columnsCounter) - this.width * 0.21;
     const y =  Math.floor((this.height * 0.7) / this.rows * this.rowsCounter);
@@ -56,10 +56,12 @@ class RandomNumbersGenerator {
     return result;
   };
 
-  generate() {
-    const dots = Array.from({ length: this.rows * this.columns }, this._callback);
+  generateGrid() {
+    return Array.from({ length: this.rows * this.columns }, this._callback);
+  }
 
-    return {dots, mappedDotsIndex: this.mappedDotsIndex}
+  generateMappedGrid() {
+    return this.mappedGridIndex;
   }
 }
 
