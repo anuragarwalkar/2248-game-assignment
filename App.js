@@ -1,6 +1,5 @@
 import { StyleSheet, View } from "react-native";
 import React from "react";
-import GestureRecorder from "./src/hooks/useGestureRecorder";
 import Grid from "./src/components/Grid/Grid";
 
 function App() {

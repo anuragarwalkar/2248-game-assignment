@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { PanResponder } from "react-native";
 import useGridGenerator from "./useGridGenerator";
-import getDotIndex from "../utils/utils";
+import getDotIndex, { getIntermediateDot } from "../utils/utils";
 
 const useGestureRecorder = () => {
   const pathRef = useRef({});
@@ -58,15 +58,19 @@ const useGestureRecorder = () => {
         const matchedDot =
           matchedDotIndex != null && mappedGridIndex.current[matchedDotIndex];
 
+          const isValid = getIntermediateDot(mappedGridIndex.current[initialGestureCoordinate.index], matchedDot)
+
         if (
           matchedDotIndex != null &&
           matchedDot &&
           !_isAlreadyInPattern(matchedDot) &&
-          activeDotCoordinate.color === grid.current[matchedDotIndex].color
+          activeDotCoordinate.color === grid.current[matchedDotIndex].color && 
+          isValid
         ) {
           const newMatch = { x: matchedDot.x, y: matchedDot.y };
           pattern.current = pattern.current.concat(newMatch);
           pathRef.current.activeDotCoordinate = grid.current[matchedDotIndex];
+          pathRef.current.initialGestureCoordinate = grid.current[matchedDotIndex];
         }
         setActiveDotCoordinate({
           ...pathRef.current.activeDotCoordinate,

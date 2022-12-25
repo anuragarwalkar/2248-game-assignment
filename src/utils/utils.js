@@ -26,3 +26,38 @@ export default function getDotIndex(
     }
   }
 }
+
+export function getIntermediateDot(anchorCoordinate, focusCoordinate) {
+  const {x:aX, y:aY} = anchorCoordinate; 
+  const {x:fX, y:fY} = focusCoordinate; 
+
+  if((aX + 1) === fX && aY === fY) {
+    return true;
+  }
+
+  if((aX - 1) === fX && aY === fY) {
+    return true;
+  }
+
+  if((aY + 1) === fY && aX === fX) {
+    return true;
+  }
+
+  if((aY - 1) === fY && aX === fX) {
+    return true;
+  }
+
+  if((aX + 1) === fX && (aY + 1) === fY) {
+    return true;
+  }
+
+  if((aX - 1) === fX && (aY - 1) === fY) {
+    return true;
+  }
+
+  if((aX - 1) === fX && (aY + 1) === fY) {
+    return true;
+  }
+
+  return false;
+}
