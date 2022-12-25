@@ -31,9 +31,6 @@ export function getIsValidPattern(anchorCoordinate, focusCoordinate) {
   const {x:aX, y:aY} = anchorCoordinate; 
   const {x:fX, y:fY} = focusCoordinate; 
 
-  console.log('anchorCoordinate:', anchorCoordinate)
-  console.log('focusCoordinate:', focusCoordinate);
-
   // Horizontal check top -> bottom
   if((aX + 1) === fX && aY === fY) {
     return true;
