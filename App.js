@@ -1,11 +1,11 @@
 import { StyleSheet, View } from "react-native";
 import React from "react";
-import Grid from "./src/components/Grid/Grid";
+import Main from "./src/components/Main";
 
 function App() {
   return (
     <View style={styles.container}>
-      <Grid />
+      <Main />
     </View>
   );
 }

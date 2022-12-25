@@ -1,21 +1,18 @@
-import { useRef } from "react";
-import RandomNumbersGenerator from "./gridGenerator";
-
-const randomGenerator = new RandomNumbersGenerator(6, 4, [2, 4, 8], {
-    2: "red",
-    4: "blue",
-    8: "green",
-});
+import { useRef, useState } from "react";
+import gridGenerator from './gridGenerator';
 
 function useGridGenerator() {
-  const grid = useRef(randomGenerator.generateGrid());
-  const mappedGridIndex = useRef(randomGenerator.generateMappedGrid());
-
-  const resetGrid = () => {
-    grid.current = generate();
-  }
+  const [_grid, setGridData] = useState(gridGenerator.generateGrid());
+  const grid = useRef(_grid);
+  const mappedGridIndex = useRef(gridGenerator.generateMappedGrid());
   
-  return { grid, resetGrid, mappedGridIndex };
+  const resetGrid = () => {
+    const data = generate();
+    grid.current = data;
+    setGridData(data);
+  }
+
+  return { grid, resetGrid, mappedGridIndex, setGridData };
 }
 
 export default useGridGenerator;

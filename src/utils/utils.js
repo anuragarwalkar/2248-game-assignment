@@ -8,7 +8,7 @@ export const getCurrentHeight = () => getDimenssions().height;
 
 const DEFAULT_HIT_SLOP = 20;
 
-export function getDotIndex(
+export function getGridIndex(
   gestureCoordinate,
   dots,
   hitSlop = DEFAULT_HIT_SLOP
@@ -27,9 +27,12 @@ export function getDotIndex(
   }
 }
 
-export function getIntermediateDot(anchorCoordinate, focusCoordinate) {
+export function getIsValidPattern(anchorCoordinate, focusCoordinate) {
   const {x:aX, y:aY} = anchorCoordinate; 
   const {x:fX, y:fY} = focusCoordinate; 
+
+  console.log('anchorCoordinate:', anchorCoordinate)
+  console.log('focusCoordinate:', focusCoordinate);
 
   // Horizontal check top -> bottom
   if((aX + 1) === fX && aY === fY) {
@@ -61,6 +64,10 @@ export function getIntermediateDot(anchorCoordinate, focusCoordinate) {
   }
 
   if((aX - 1) === fX && (aY + 1) === fY) {
+    return true;
+  }
+
+  if((fX - 1) === aX && (fY + 1) === aY) {
     return true;
   }
 

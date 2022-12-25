@@ -1,6 +1,9 @@
+import { useContext } from "react";
 import { StyleSheet, View } from "react-native";
 import { Svg } from "react-native-svg";
+import { GridContext } from "../../context";
 import useGestureRecorder from "../../hooks/useGestureRecorder";
+import useUpdateGridTiles from "../../hooks/useUpdateGridTiles";
 import { getDimenssions } from "../../utils/utils";
 import ActiveLine from "../ActiveLine";
 import GridItem from "../GridItem/GridItem";
@@ -9,8 +12,10 @@ import Pattern from '../Pattern/Pattern';
 const { height, width } = getDimenssions();
 
 function Grid() {
-  const { grid, mappedGridIndex, activeDotCoordinate, pattern, panResponder } =
-    useGestureRecorder();
+  const { grid, mappedGridIndex } = useContext(GridContext);
+  const { onUpdate } = useUpdateGridTiles();
+  const { activeDotCoordinate, pattern, panResponder } =
+    useGestureRecorder({grid, mappedGridIndex, onRelease: onUpdate});
 
   return (
     <View
