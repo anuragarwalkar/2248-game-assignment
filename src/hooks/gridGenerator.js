@@ -1,5 +1,5 @@
 import uuid from "react-native-uuid";
-import { getDimenssions } from "../utils/utils";
+import { allColors, getDimenssions } from "../utils/utils";
 
 class RandomNumbersGenerator {
   numbersToFill = [];
@@ -9,17 +9,7 @@ class RandomNumbersGenerator {
   rowsCounter = 1;
   columnsCounter = 1;
   mappedGridIndex = [];
-  colors = [
-    "teal",
-    "purple",
-    "orange",
-    "pink",
-    "fuchsia",
-    "lime",
-    "olive",
-    "navy",
-    "aqua",
-  ];
+  colors;
 
   constructor(rows, columns, numbers, colorsMapper) {
     this.rows = rows;
@@ -29,6 +19,7 @@ class RandomNumbersGenerator {
     const { width, height } = getDimenssions();
     this.width = width;
     this.height = height;
+    this.colors = allColors;
   }
 
   getRandomNumber() {

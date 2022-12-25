@@ -70,3 +70,31 @@ export function getIsValidPattern(anchorCoordinate, focusCoordinate) {
 
   return false;
 }
+
+export const allColors = [
+  "teal",
+  "purple",
+  "orange",
+  "pink",
+  "fuchsia",
+  "lime",
+  "olive",
+  "navy",
+  "aqua",
+  "maroon",
+  "blueviolet",
+  "brown",
+  "cadetblue",
+  "chocolate",
+  "coral",
+  "cornflowerblue",
+  "crimson",
+  "darkcyan",
+  "darkblue",
+  "darkkhaki",
+  "darkolivegreen",
+  "darkorange",
+  "darkslategrey",
+  "deeppink",
+  "goldenrod",
+];
