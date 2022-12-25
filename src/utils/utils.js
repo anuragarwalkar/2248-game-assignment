@@ -8,7 +8,7 @@ export const getCurrentHeight = () => getDimenssions().height;
 
 const DEFAULT_HIT_SLOP = 20;
 
-export default function getDotIndex(
+export function getDotIndex(
   gestureCoordinate,
   dots,
   hitSlop = DEFAULT_HIT_SLOP
@@ -31,22 +31,27 @@ export function getIntermediateDot(anchorCoordinate, focusCoordinate) {
   const {x:aX, y:aY} = anchorCoordinate; 
   const {x:fX, y:fY} = focusCoordinate; 
 
+  // Horizontal check top -> bottom
   if((aX + 1) === fX && aY === fY) {
     return true;
   }
 
+   // Horizontal check bottom -> top
   if((aX - 1) === fX && aY === fY) {
     return true;
   }
 
+  // Vertical check top -> bottom
   if((aY + 1) === fY && aX === fX) {
     return true;
   }
 
+  // Vertical check bottom -> top
   if((aY - 1) === fY && aX === fX) {
     return true;
   }
 
+  //Digonal checks 
   if((aX + 1) === fX && (aY + 1) === fY) {
     return true;
   }

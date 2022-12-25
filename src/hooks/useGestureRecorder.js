@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { PanResponder } from "react-native";
 import useGridGenerator from "./useGridGenerator";
-import getDotIndex, { getIntermediateDot } from "../utils/utils";
+import { getIntermediateDot, getDotIndex } from "../utils/utils";
 
 const useGestureRecorder = () => {
   const pathRef = useRef({});
