@@ -13,17 +13,22 @@ function useUpdateGridTiles() {
         const randomNumber = gridGenerator.getRandomNumber();
         prevGridData[data.indexes[index]].value = randomNumber;
         prevGridData[data.indexes[index]].color =
-          gridGenerator.getColorByNumber(randomNumber);
+        gridGenerator.getColorByNumber(randomNumber);
       }
 
       data.indexes.push(lastIndex);
 
-      const multiplyBy = data.indexes.length > 4 ? 4 : data.indexes.length;
-      const newTileNumber = multiplyBy  * data.number;
+      let total = data.indexes.length * data.number;
+      const poweOf = Math.log2(total)
+      const isPowerOfTwo = poweOf % 1 === 0;
+      
+      if(!isPowerOfTwo) {
+        total =  Math.pow(2, Math.floor(poweOf));
+      }
 
-      prevGridData[lastIndex].value = newTileNumber;
+      prevGridData[lastIndex].value = total;
       prevGridData[lastIndex].color =
-        gridGenerator.getColorByNumber(newTileNumber);
+        gridGenerator.getColorByNumber(total);
 
       return prevGridData;
     });
