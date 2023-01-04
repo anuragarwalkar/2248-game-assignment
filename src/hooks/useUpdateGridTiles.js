@@ -3,7 +3,7 @@ import { GridContext } from "../context";
 import gridGenerator from "./gridGenerator";
 
 function useUpdateGridTiles() {
-  const { setScore, setGridData } = useContext(GridContext);
+  const { setScore, setGridData, setShowModal } = useContext(GridContext);
 
   const updateCrossedTiles = (data) => {
     setGridData((prevGridData) => {
@@ -28,7 +28,11 @@ function useUpdateGridTiles() {
 
       prevGridData[lastIndex].value = total;
       prevGridData[lastIndex].color =
-        gridGenerator.getColorByNumber(total);
+      gridGenerator.getColorByNumber(total);
+
+      if(total === 16) {
+        setShowModal(true);
+      }
 
       return prevGridData;
     });

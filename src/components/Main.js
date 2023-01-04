@@ -11,16 +11,23 @@ import useGridGenerator from "../hooks/useGridGenerator";
 import { getCurrentHeight } from "../utils/utils";
 import Grid from "./Grid/Grid";
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
+import Congratulations from "./Contratulations/Congratulations";
 
 const height = getCurrentHeight();
 
 function Main() {
-  const { grid, mappedGridIndex, setGridData, resetGrid } = useGridGenerator();
+  const { grid, mappedGridIndex, setGridData, resetGrid, } = useGridGenerator();
   const [score, setScore] = useState(0);
+  const [showModal, setShowModal] = useState(false);
 
   const onRestart = () => {
     setScore(0);
     resetGrid();
+    setShowModal(false);
+  }
+
+  const onHideModal = () => {
+    setShowModal(false)
   }
 
   return (
@@ -32,13 +39,14 @@ function Main() {
         score,
         setScore,
         setGridData,
+        showModal, 
+        setShowModal,
       }}
     >
       <View style={styles.container}>
         <View style={styles.chip}>
           <Text style={styles.text}>{score}</Text>
         </View>
-      
         <TouchableWithoutFeedback onPress={onRestart} >
           <View style={styles.chip}>
               <MaterialCommunityIcons name="restart" size={30} color="white" />
@@ -46,6 +54,7 @@ function Main() {
         </TouchableWithoutFeedback>
       </View>
       <Grid />
+      <Congratulations show={showModal} restart={onRestart} hideModal={onHideModal} />
     </GridContext.Provider>
   );
 }
