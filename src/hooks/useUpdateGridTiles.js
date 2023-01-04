@@ -30,7 +30,7 @@ function useUpdateGridTiles() {
       prevGridData[lastIndex].color =
       gridGenerator.getColorByNumber(total);
 
-      if(total === 16) {
+      if(total >= 2048) {
         setShowModal(true);
       }
 

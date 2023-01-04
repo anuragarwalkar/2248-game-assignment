@@ -20,9 +20,11 @@ const useGestureRecorder = ({grid, mappedGridIndex, onRelease}) => {
     PanResponder.create({
       onMoveShouldSetPanResponder: () => {
         releaseTiles.current = {indexes: [], number: 0};
+        console.log('starting--------------------------------');
         return true;
       },
       onPanResponderGrant: (event) => {
+        console.log('grant--------------------------------');
         let { locationX, locationY } = event.nativeEvent;
 
         let activeDotIndex = getGridIndex(
@@ -55,14 +57,12 @@ const useGestureRecorder = ({grid, mappedGridIndex, onRelease}) => {
           return;
         }
 
-        let matchedDotIndex = getGridIndex({ x: locationX, y: locationY }, grid.current, 40);
+        let matchedDotIndex = getGridIndex({ x: locationX, y: locationY }, grid.current, 35);
 
         const matchedDot =
           matchedDotIndex != null && mappedGridIndex.current[matchedDotIndex];
 
           const isValid = getIsValidPattern(mappedGridIndex.current[initialGestureCoordinate.index], matchedDot)
-
-          
 
         if (
           matchedDotIndex != null &&
