@@ -28,7 +28,7 @@ const useGestureRecorder = ({grid, mappedGridIndex, onRelease}) => {
         let activeDotIndex = getGridIndex(
           { x: locationX, y: locationY },
           grid.current,
-          30
+          40
         );
 
         if (activeDotIndex != null) {

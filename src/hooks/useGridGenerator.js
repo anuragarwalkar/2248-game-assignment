@@ -7,9 +7,9 @@ function useGridGenerator() {
   const mappedGridIndex = useRef(gridGenerator.generateMappedGrid());
   
   const resetGrid = () => {
-    const data = generate();
-    grid.current = data;
+    const data = gridGenerator.generateGrid();
     setGridData(data);
+    grid.current = data;
   }
 
   return { grid, resetGrid, mappedGridIndex, setGridData };

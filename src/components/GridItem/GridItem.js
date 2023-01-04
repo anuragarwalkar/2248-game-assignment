@@ -5,11 +5,12 @@ function GridItem({ item: { x, y, color, value } }) {
     <Svg>
       <Rect x={x} y={y} rx={20} width={70} height={70} fill={color} />
       <Text
-        x={x + 35}
-        y={y + 50}
+        x={x + (value.toString().length > 2 ? 35 : 35)}
+        y={y + (value.toString().length > 2 ? 45 : 50)}
         fill="white"
-        fontSize="42"
+        fontSize={value.toString().length > 2 ? 24 : 42}
         textAnchor="middle"
+        textLength={3}
       >
         {value}
       </Text>

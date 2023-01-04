@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { StyleSheet, View } from "react-native";
+import { Button, StyleSheet, Text, View } from "react-native";
 import { Svg } from "react-native-svg";
 import { GridContext } from "../../context";
 import useGestureRecorder from "../../hooks/useGestureRecorder";
@@ -19,30 +19,17 @@ function Grid() {
 
   return (
     <View
-      {...panResponder.panHandlers}
-      style={{
-        display: "flex",
-        flex: 1,
-        justifyContent: "center",
-        ...StyleSheet.absoluteFill,
-      }}
-    >
-      <View>
-        <Svg width={width} height={height * 0.8}>
-          {grid.current &&
-            grid.current.map((dot, i) => <GridItem key={i} item={dot} />)}
-        </Svg>
-        <View style={{ position: "absolute", zIndex: Number.MIN_SAFE_INTEGER }}>
-          <Svg width={width} height={height * 0.8}>
-            <Pattern
+      {...panResponder.panHandlers} >
+        <Svg width={width} height={height * 0.63}>
+          <ActiveLine activeDotCoordinate={activeDotCoordinate} />
+          <Pattern
               items={pattern.current}
               grid={grid.current}
               mappedGridIndex={mappedGridIndex.current}
             />
-            <ActiveLine activeDotCoordinate={activeDotCoordinate} />
-          </Svg>
-        </View>
-      </View>
+          {grid.current &&
+            grid.current.map((dot, i) => <GridItem key={i} item={dot} />)}
+        </Svg>
     </View>
   );
 }

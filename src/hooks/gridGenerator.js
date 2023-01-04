@@ -36,8 +36,8 @@ class RandomNumbersGenerator {
     });
 
     const x =
-      Math.floor((this.width / 4) * this.columnsCounter) - this.width * 0.21;
-    const y = Math.floor(((this.height * 0.7) / this.rows) * this.rowsCounter);
+      Math.floor((this.width / this.columns) * this.columnsCounter) - this.width * 0.21;
+    const y = Math.floor(((this.height) / 9) * this.rowsCounter) - (this.height / 9);
 
     const result = {
       x,
@@ -63,7 +63,13 @@ class RandomNumbersGenerator {
     return result;
   };
 
+  resetGrid() {
+    this.rowsCounter = 1;
+    this.columnsCounter = 1;
+  }
+
   generateGrid() {
+    this.resetGrid();
     return Array.from({ length: this.rows * this.columns }, this._callback);
   }
 
