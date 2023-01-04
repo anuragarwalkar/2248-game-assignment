@@ -20,7 +20,7 @@ function Grid() {
   return (
     <View
       {...panResponder.panHandlers} >
-        <Svg width={width} height={height * 0.63}>
+        <Svg width={width} height={height * 0.65}>
           <ActiveLine activeDotCoordinate={activeDotCoordinate} />
           <Pattern
               items={pattern.current}
