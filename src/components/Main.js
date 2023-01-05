@@ -10,51 +10,34 @@ import { GridContext } from "../context";
 import useGridGenerator from "../hooks/useGridGenerator";
 import { getCurrentHeight } from "../utils/utils";
 import Grid from "./Grid/Grid";
-import { MaterialCommunityIcons } from '@expo/vector-icons'; 
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Congratulations from "./Contratulations/Congratulations";
+import useCustomContext from "../hooks/useCustomContext";
 
 const height = getCurrentHeight();
 
 function Main() {
-  const { grid, mappedGridIndex, setGridData, resetGrid, } = useGridGenerator();
-  const [score, setScore] = useState(0);
-  const [showModal, setShowModal] = useState(false);
-
-  const onRestart = () => {
-    setScore(0);
-    resetGrid();
-    setShowModal(false);
-  }
-
-  const onHideModal = () => {
-    setShowModal(false)
-  }
-
+  const { provider, onRestart, showModal, onHideModal, score } =
+    useCustomContext();
+    
   return (
-    <GridContext.Provider
-      value={{
-        grid,
-        mappedGridIndex,
-        setGridData,
-        score,
-        setScore,
-        setGridData,
-        showModal, 
-        setShowModal,
-      }}
-    >
+    <GridContext.Provider value={provider}>
       <View style={styles.container}>
         <View style={styles.chip}>
           <Text style={styles.text}>{score}</Text>
         </View>
-        <TouchableWithoutFeedback onPress={onRestart} >
+        <TouchableWithoutFeedback onPress={onRestart}>
           <View style={styles.chip}>
-              <MaterialCommunityIcons name="restart" size={30} color="white" />
+            <MaterialCommunityIcons name="restart" size={30} color="white" />
           </View>
         </TouchableWithoutFeedback>
       </View>
       <Grid />
-      <Congratulations show={showModal} restart={onRestart} hideModal={onHideModal} />
+      <Congratulations
+        show={showModal}
+        restart={onRestart}
+        hideModal={onHideModal}
+      />
     </GridContext.Provider>
   );
 }
