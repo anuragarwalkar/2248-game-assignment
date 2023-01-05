@@ -1,11 +1,11 @@
+import { StyleSheet, View, Text, Button } from "react-native";
 import React from "react";
-import { StyleSheet, View } from "react-native";
-import Grid from "./src/Components/Grid";
+import Main from "./src/components/Main";
 
-export default function App() {
+function App() {
   return (
     <View style={styles.container}>
-      <Grid />
+      <Main />
     </View>
   );
 }
@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "#FFE7C3",
     height: "100%",
-    display: "flex",
-    justifyContent: "center",
   },
 });
+
+export default App;

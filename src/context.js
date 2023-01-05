@@ -1,3 +1,3 @@
 import { createContext } from "react";
 
-export const GridContext = createContext()
+export const GridContext = createContext();

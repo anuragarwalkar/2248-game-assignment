@@ -1,18 +1,18 @@
-import { useState } from "react";
-import gridGenerator from "./gridGenerator";
+import { useRef, useState } from "react";
+import gridGenerator from './gridGenerator';
 
 function useGridGenerator() {
-  const generate = () => {
-    return gridGenerator.generate();
-  };
-
-  const [grid, setGridData] = useState(() => generate());
-
+  const [_grid, setGridData] = useState(gridGenerator.generateGrid());
+  const grid = useRef(_grid);
+  const mappedGridIndex = useRef(gridGenerator.generateMappedGrid());
+  
   const resetGrid = () => {
-    setGridData(generate());
-  };
+    const data = gridGenerator.generateGrid();
+    setGridData(data);
+    grid.current = data;
+  }
 
-  return [grid, resetGrid];
+  return { grid, resetGrid, mappedGridIndex, setGridData };
 }
 
 export default useGridGenerator;
