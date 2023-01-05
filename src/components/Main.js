@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   View,
   Text,
@@ -7,7 +6,6 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 import { GridContext } from "../context";
-import useGridGenerator from "../hooks/useGridGenerator";
 import { getCurrentHeight } from "../utils/utils";
 import Grid from "./Grid/Grid";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -33,11 +31,11 @@ function Main() {
         </TouchableWithoutFeedback>
       </View>
       <Grid />
-      <Congratulations
+      {showModal && <Congratulations
         show={showModal}
         restart={onRestart}
         hideModal={onHideModal}
-      />
+      />}
     </GridContext.Provider>
   );
 }
@@ -50,15 +48,12 @@ const styles = StyleSheet.create({
     paddingRight: 20,
     marginBottom: 10,
     display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
     borderRadius: 10,
   },
   container: {
-    marginTop: height * 0.15,
+    top: height * 0.15,
     padding: 10,
     display: "flex",
-    alignItems: "center",
     flexDirection: "row",
     justifyContent: "space-between",
   },

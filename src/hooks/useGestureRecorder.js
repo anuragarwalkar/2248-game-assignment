@@ -20,11 +20,9 @@ const useGestureRecorder = ({grid, mappedGridIndex, onRelease}) => {
     PanResponder.create({
       onMoveShouldSetPanResponder: () => {
         releaseTiles.current = {indexes: [], number: 0};
-        console.log('starting--------------------------------');
         return true;
       },
       onPanResponderGrant: (event) => {
-        console.log('grant--------------------------------');
         let { locationX, locationY } = event.nativeEvent;
 
         let activeDotIndex = getGridIndex(
